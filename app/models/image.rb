@@ -1,6 +1,7 @@
 class Image < ApplicationRecord
   validates :url, presence: true
   validate :image_url?
+  acts_as_taggable
 
   def image_url?
     parsed_url = URI.parse(url)

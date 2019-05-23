@@ -30,4 +30,31 @@ class ImageTest < ActionDispatch::IntegrationTest
     image = Image.new(url: 'https://www.google.com/image.jpg')
     assert image.valid?
   end
+
+  test 'should accept an image with no tags' do
+    image = Image.create!(url: 'https://www.image.com/image.jpg')
+    image2 = Image.last
+    assert_equal image, image2
+    assert_empty image2.tag_list
+  end
+
+  test 'should accept a tag for an image' do
+    tag = '#fun'
+    image = Image.create!(url: 'https://www.image.com/image.jpg', tag_list: tag)
+    image2 = Image.last
+    assert_equal image, image2
+    assert_equal 1, image2.tag_list.length
+    assert_equal tag, image2.tag_list[0]
+  end
+
+  test 'should accept a list of tags for an image' do
+    tags = '#fun, #sun, #funinthesun'
+    image = Image.create!(url: 'https://www.image.com/image.jpg', tag_list: tags)
+    image2 = Image.last
+    assert_equal image, image2
+    assert_equal 3, image2.tag_list.length
+    assert_includes image2.tag_list, '#fun'
+    assert_includes image2.tag_list, '#sun'
+    assert_includes image2.tag_list, '#funinthesun'
+  end
 end
