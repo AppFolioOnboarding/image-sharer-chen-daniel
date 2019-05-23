@@ -1,2 +1,13 @@
-<h1>Hello World</h1>
-<a href="<%= new_image_path %>">Upload Image</a>
+<div class="content">
+  <h1>Google-Images-gram</h1>
+  <a href="<%= new_image_path %>">Upload Image</a>
+  <table>
+  <tr>
+  </tr>
+  <% @images.each do |i| %>
+    <tr>
+      <td><%= image_tag(i.url, class: 'home-image') %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
