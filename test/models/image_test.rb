@@ -17,4 +17,17 @@ class ImageTest < ActionDispatch::IntegrationTest
       Image.create!(url: 'https://www,google.com')
     end
   end
+
+  test 'validates properly formatted URLs' do
+    image = Image.new(url: 'httpl://www.google.com/image.jpg')
+    assert_not image.valid?
+    image = Image.new(url: 'httpl://www.google.com/image')
+    assert_not image.valid?
+    image = Image.new(url: 'httpl://www.google.com/image.j')
+    assert_not image.valid?
+    image = Image.new(url: 'www.google.com/image.jpg')
+    assert_not image.valid?
+    image = Image.new(url: 'https://www.google.com/image.jpg')
+    assert image.valid?
+  end
 end
