@@ -7,7 +7,7 @@ class ImagesController < ApplicationController
     @image = Image.new(image_params)
 
     if !@image.save
-      render 'new'
+      render 'new', status: :unprocessable_entity
     else
       redirect_to @image
     end

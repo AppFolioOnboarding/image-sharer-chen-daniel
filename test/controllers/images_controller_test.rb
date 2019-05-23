@@ -13,6 +13,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to image
   end
 
+  test 'should reject invalid image url and rerender' do
+    post images_path, params: { image: { url: 'asdf' } }
+    assert_response :unprocessable_entity
+  end
+
   test 'should show an image in the db' do
     image = Image.create!(url: 'https://www.w3schools.com/w3css/img_lights.jpg')
     get image_path(image.id)
