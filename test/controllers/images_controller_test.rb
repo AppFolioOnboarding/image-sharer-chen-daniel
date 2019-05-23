@@ -1,6 +1,18 @@
 require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
+  test 'index should get the images homepage with all images displayed and most recent first' do
+    Image.create!(url: 'https://www.image.com/image.jpg')
+    Image.create!(url: 'https://www.image.com/image2.jpg')
+    Image.create!(url: 'https://www.image.com/image3.jpg')
+    get root_path
+    assert_response :ok
+    assert_select 'img' do |images|
+      assert_equal images.length, Image.count
+      assert_equal images.first.attribute('src').value, 'https://www.image.com/image3.jpg'
+    end
+  end
+
   test 'new should get new image form' do
     get new_image_path
     assert_response :ok
