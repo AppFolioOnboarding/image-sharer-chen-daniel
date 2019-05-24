@@ -30,6 +30,25 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'index should display tags with images' do
+    Image.create!(url: 'https://www.image.com/image.jpg', tag_list: '#fun, #sun, #funinthesun')
+    Image.create!(url: 'https://www.image.com/image2.jpg', tag_list: '#sun, #suninthefun')
+    Image.create!(url: 'https://www.image.com/image3.jpg')
+    get root_path
+    assert_response :ok
+    assert_select 'img' do |images|
+      assert_equal images[0].attribute('src').value, 'https://www.image.com/image3.jpg'
+      assert_not images[0].parent.next_sibling.next_sibling.child.content.include?('#fun, #sun, #funinthesun')
+      assert_not images[0].parent.next_sibling.next_sibling.child.content.include?('#sun, #suninthefun')
+      assert_equal images[1].attribute('src').value, 'https://www.image.com/image2.jpg'
+      assert_not images[1].parent.next_sibling.next_sibling.child.content.include?('#fun, #sun, #funinthesun')
+      assert images[1].parent.next_sibling.next_sibling.child.content.include?('#sun, #suninthefun')
+      assert_equal images[2].attribute('src').value, 'https://www.image.com/image.jpg'
+      assert_not images[2].parent.next_sibling.next_sibling.child.content.include?('#sun, #suninthefun')
+      assert images[2].parent.next_sibling.next_sibling.child.content.include?('#fun, #sun, #funinthesun')
+    end
+  end
+
   test 'new should get new image form' do
     get new_image_path
     assert_response :ok
