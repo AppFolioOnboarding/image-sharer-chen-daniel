@@ -1,6 +1,35 @@
 require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
+  test 'index should successfully get the home page' do
+    get root_path
+    assert_response :ok
+  end
+
+  test 'index should have all stored images' do
+    Image.create!(url: 'https://www.image.com/image.jpg')
+    Image.create!(url: 'https://www.image.com/image2.jpg')
+    Image.create!(url: 'https://www.image.com/image3.jpg')
+    get root_path
+    assert_response :ok
+    assert_select 'img' do |images|
+      assert_equal images.length, Image.count
+    end
+  end
+
+  test 'index should display images in descending order of created_at time' do
+    Image.create!(url: 'https://www.image.com/image.jpg')
+    Image.create!(url: 'https://www.image.com/image2.jpg')
+    Image.create!(url: 'https://www.image.com/image3.jpg')
+    get root_path
+    assert_response :ok
+    assert_select 'img' do |images|
+      assert_equal images[0].attribute('src').value, 'https://www.image.com/image3.jpg'
+      assert_equal images[1].attribute('src').value, 'https://www.image.com/image2.jpg'
+      assert_equal images[2].attribute('src').value, 'https://www.image.com/image.jpg'
+    end
+  end
+
   test 'new should get new image form' do
     get new_image_path
     assert_response :ok
