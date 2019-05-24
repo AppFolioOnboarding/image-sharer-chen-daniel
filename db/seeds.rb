@@ -1,7 +1,23 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+Image.create!([{ url: 'https://www.dchen.tech/assets/images/Street_Urban/18.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/17.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/16.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/15.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/14.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/13.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/12.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/11.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/10.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/09.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/08.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/07.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/06.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/05.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/04.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/03.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/02.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/01.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Street_Urban/05.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Portrait/18.jpg' },
+               { url: 'https://www.dchen.tech/assets/images/Portrait/17.jpg' }])
