@@ -7,7 +7,7 @@
   <% @images.each do |i| %>
     <tr>
       <td><%= image_tag(i.url, class: 'home-image') %></td>
-      <td><%= i.tag_list %>
+      <td class="row-tags"><%= i.tag_list %>
     </tr>
   <% end %>
   </table>

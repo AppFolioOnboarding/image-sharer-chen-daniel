@@ -36,16 +36,15 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create!(url: 'https://www.image.com/image3.jpg')
     get root_path
     assert_response :ok
-    assert_select 'img' do |images|
-      assert_equal images[0].attribute('src').value, 'https://www.image.com/image3.jpg'
-      assert_not images[0].parent.next_sibling.next_sibling.child.content.include?('#fun, #sun, #funinthesun')
-      assert_not images[0].parent.next_sibling.next_sibling.child.content.include?('#sun, #suninthefun')
-      assert_equal images[1].attribute('src').value, 'https://www.image.com/image2.jpg'
-      assert_not images[1].parent.next_sibling.next_sibling.child.content.include?('#fun, #sun, #funinthesun')
-      assert images[1].parent.next_sibling.next_sibling.child.content.include?('#sun, #suninthefun')
-      assert_equal images[2].attribute('src').value, 'https://www.image.com/image.jpg'
-      assert_not images[2].parent.next_sibling.next_sibling.child.content.include?('#sun, #suninthefun')
-      assert images[2].parent.next_sibling.next_sibling.child.content.include?('#fun, #sun, #funinthesun')
+    assert_select '.home-image, .row-tags' do |elements|
+      assert_equal elements[0].attribute('src').value, 'https://www.image.com/image3.jpg'
+      assert_equal elements[1].content, "\n    "
+
+      assert_equal elements[2].attribute('src').value, 'https://www.image.com/image2.jpg'
+      assert_equal elements[3].content, "#sun, #suninthefun\n    "
+
+      assert_equal elements[4].attribute('src').value, 'https://www.image.com/image.jpg'
+      assert_equal elements[5].content, "#fun, #sun, #funinthesun\n    "
     end
   end
 
