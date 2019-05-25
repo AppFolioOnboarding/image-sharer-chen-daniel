@@ -1,4 +1,7 @@
 <a href="<%= root_path %>">Home</a>
 <h1>URL: <%= @image.url %></h1>
 <img src="<%= @image.url %>">
-<p>Tags: <%= @image.tag_list %>
+<p>Tags:
+<% @image.tag_list.each do |tag| %>
+  <%= link_to(tag, images_path(tag: tag), class: 'js-image-tag') %>
+<% end %>
