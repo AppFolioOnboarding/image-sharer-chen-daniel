@@ -131,4 +131,22 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'img', false
   end
+
+  test 'destroy should remove an image in the db' do
+    image = Image.create!(url: 'https://www.w3schools.com/w3css/img_lights.jpg')
+    assert_difference 'Image.count', -1 do
+      delete image_path(image.id)
+    end
+    assert_redirected_to root_path
+    assert_equal 'Image successfully deleted', flash[:notice]
+  end
+
+  test 'destroy should fail to remove an image not in the db' do
+    image = Image.create!(url: 'https://www.w3schools.com/w3css/img_lights.jpg')
+    assert_no_difference 'Image.count' do
+      delete image_path(image.id + 1)
+    end
+    assert_redirected_to root_path
+    assert_equal 'Image does not exist', flash[:alert]
+  end
 end
