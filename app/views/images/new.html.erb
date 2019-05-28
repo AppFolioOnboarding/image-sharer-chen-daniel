@@ -1,19 +1,6 @@
 <a href="<%= root_path %>">Home</a>
 <h1>Add an image URL</h1>
 <%= simple_form_for @image do |f| %>
-  <% if @image.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@image.errors.count, "error") %> prohibited
-        this image from being saved:
-      </h2>
-      <ul>
-        <% @image.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
   <%= f.input :url %>
   <%= f.input :tag_list %>
   <%= f.submit 'Submit' %>
