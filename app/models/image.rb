@@ -2,6 +2,9 @@ class Image < ApplicationRecord
   validates :url, presence: true
   validate :image_url?
   acts_as_taggable
+  scope :by_create_date, lambda {
+    order(created_at: :desc)
+  }
 
   def image_url?
     parsed_url = URI.parse(url)

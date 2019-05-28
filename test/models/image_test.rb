@@ -57,4 +57,16 @@ class ImageTest < ActionDispatch::IntegrationTest
     assert_includes image2.tag_list, '#sun'
     assert_includes image2.tag_list, '#funinthesun'
   end
+
+  test 'by_create_date scope should order by descending create_date' do
+    image1 = Image.create!(url: 'https://www.image.com/image.jpg', created_at: Time.utc(2008, 7, 8, 9, 10))
+    image2 = Image.create!(url: 'https://www.image.com/image.jpg', created_at: Time.utc(2008, 7, 8, 9, 12))
+    image3 = Image.create!(url: 'https://www.image.com/image.jpg', created_at: Time.utc(2008, 7, 8, 9, 11))
+    image4 = Image.create!(url: 'https://www.image.com/image.jpg', created_at: Time.utc(2008, 7, 8, 9, 13))
+    images = Image.by_create_date
+    assert_equal images[0], image4
+    assert_equal images[1], image2
+    assert_equal images[2], image3
+    assert_equal images[3], image1
+  end
 end

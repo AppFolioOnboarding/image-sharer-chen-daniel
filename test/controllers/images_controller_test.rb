@@ -36,15 +36,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create!(url: 'https://www.image.com/image3.jpg')
     get root_path
     assert_response :ok
-    assert_select '.home-image, .row-tags' do |elements|
+    assert_select '.home-image, .js-image-tag' do |elements|
       assert_equal elements[0].attribute('src').value, 'https://www.image.com/image3.jpg'
-      assert_equal elements[1].content, "\n    "
 
-      assert_equal elements[2].attribute('src').value, 'https://www.image.com/image2.jpg'
-      assert_equal elements[3].content, "#sun, #suninthefun\n    "
+      assert_equal elements[1].attribute('src').value, 'https://www.image.com/image2.jpg'
+      assert_equal elements[2].content.strip, '#sun'
+      assert_equal elements[3].content.strip, '#suninthefun'
 
       assert_equal elements[4].attribute('src').value, 'https://www.image.com/image.jpg'
-      assert_equal elements[5].content, "#fun, #sun, #funinthesun\n    "
+      assert_equal elements[5].content.strip, '#fun'
+      assert_equal elements[6].content.strip, '#sun'
+      assert_equal elements[7].content.strip, '#funinthesun'
     end
   end
 
@@ -103,6 +105,30 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image.id)
     assert_response :ok
     assert_select 'img[src="https://www.image.com/image.jpg"]'
-    assert_select 'p', 'Tags: #funinthesun, #fun, #sun'
+    assert_select '.js-image-tag' do |elements|
+      assert_equal elements[0].content.strip, '#funinthesun'
+      assert_equal elements[1].content.strip, '#fun'
+      assert_equal elements[2].content.strip, '#sun'
+    end
+  end
+
+  test 'filter should display only images with matching tags' do
+    Image.create!(url: 'https://www.image.com/image.jpg', tag_list: '#fun, #sun, #funinthesun')
+    Image.create!(url: 'https://www.image.com/image2.jpg')
+    Image.create!(url: 'https://www.image.com/image3.jpg', tag_list: '#sun, #suninthefun')
+    get images_path(tag: '#sun')
+    assert_response :ok
+    assert_select 'img[src="https://www.image.com/image.jpg"]'
+    assert_select 'img[src="https://www.image.com/image2.jpg"]', false
+    assert_select 'img[src="https://www.image.com/image3.jpg"]'
+  end
+
+  test 'filter should display no images if no tags match' do
+    Image.create!(url: 'https://www.image.com/image.jpg', tag_list: '#fun, #sun, #funinthesun')
+    Image.create!(url: 'https://www.image.com/image2.jpg')
+    Image.create!(url: 'https://www.image.com/image3.jpg', tag_list: '#sun, #suninthefun')
+    get images_path(tag: '#pun')
+    assert_response :ok
+    assert_select 'img', false
   end
 end
