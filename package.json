@@ -3,10 +3,14 @@
     "@rails/webpacker": "^4.0.2",
     "autobind-decorator": "^2.1.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "bootstrap": "^4.3.1",
     "coffeescript": "1.12.7",
+    "postcss-cssnext": "^3.1.0",
     "prop-types": "^15.6.1",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "reactstrap": "^8.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.0",
