@@ -12,5 +12,7 @@ describe('<App />', () => {
     const header = wrapper.find('Header');
     assert.strictEqual(header.length, 1);
     assert.strictEqual(header.prop('title'), 'Tell us what you think');
+
+    assert.strictEqual(wrapper.find('Footer').length, 1);
   });
 });
